@@ -1,0 +1,578 @@
+/////----------------------------Exercice N°5---------------------//////////////
+#include<stdio.h>
+#include<stdlib.h>
+
+struct cellule{
+       int a;
+       struct cellule *suivant;
+       };
+int main()
+{
+   struct cellule *liste,*p,*q,*r;
+   int n,i;
+   printf("Donner le nombre d'elements de la liste:\n");
+   scanf("%d",&n);
+   printf("Entrer les elements de la liste:\n");
+   for(i=0;i<n;i++)
+   {
+      p=(struct cellule *)malloc(sizeof(struct cellule));
+      scanf("%d",&(*p).a);
+      if(i==0) liste = p;
+      else (*q).suivant=p;
+      q=p;
+   }
+   (*p).suivant=NULL;
+   p=liste;
+   while(p!=NULL)
+   {
+      r=(*p).suivant;
+      if(p==liste) (*p).suivant=NULL;
+      else (*p).suivant=q;
+      q=p;
+      p=r;
+   }
+   liste=q;
+   p=liste;
+   while(p!=NULL)
+   {
+      printf("%d ",(*p).a);
+      p=(*p).suivant;
+   }
+   printf("\n");
+   system("pause");
+   return 0;
+}
+/////----------------------------Exercice N°3---------------------//////////////
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction pour ajouter un élément à la liste chaînée
+Node* ajouterElement(Node* tete, int valeur) {
+    Node* nouvelElement = (Node*)malloc(sizeof(Node));
+    nouvelElement->data = valeur;
+    nouvelElement->next = NULL;
+
+    if (tete == NULL) {
+        return nouvelElement;
+    }
+
+    Node* courant = tete;
+    while (courant->next != NULL) {
+        courant = courant->next;
+    }
+
+    courant->next = nouvelElement;
+
+    return tete;
+}
+
+// Fonction pour afficher la liste chaînée (à des fins de vérification)
+void afficherListe(Node* tete) {
+    Node* courant = tete;
+    while (courant != NULL) {
+        printf("%d ", courant->data);
+        courant = courant->next;
+    }
+    printf("\n");
+}
+
+// Fonction de recherche dans la liste chaînée
+int rechercheListe(Node* tete, int valeur) {
+    int i_val = -1;
+    int i = 0;
+
+    Node* courant = tete;
+    while (courant != NULL) {
+        if (courant->data == valeur) {
+            i_val = i;
+            break;
+        }
+        courant = courant->next;
+        i++;
+    }
+
+    return i_val;
+}
+
+int main() {
+    Node* tete = NULL; // Initialisez la liste chaînée à NULL
+
+    int taille;
+    printf("Entrez la taille de la liste : ");
+    scanf("%d", &taille);
+
+    printf("Entrez les valeurs de la liste :\n");
+    for (int i = 0; i < taille; i++) {
+        int valeur;
+        printf("Valeur %d : ", i + 1);
+        scanf("%d", &valeur);
+        tete = ajouterElement(tete, valeur);
+    }
+
+    afficherListe(tete); // Affichez la liste chaînée (à des fins de vérification)
+
+    int valeur_recherchee;
+    printf("Entrez la valeur à rechercher : ");
+    scanf("%d", &valeur_recherchee);
+
+    int indice = rechercheListe(tete, valeur_recherchee);
+
+    if (indice != -1) {
+        printf("La valeur %d a été trouvée à l'indice %d.\n", valeur_recherchee, indice);
+    } else {
+        printf("La valeur %d n'a pas été trouvée dans la liste.\n", valeur_recherchee);
+    }
+
+    // Libérer la mémoire en libérant les nœuds de la liste
+    Node* courant = tete;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+
+/////----------------------------Exercice N°3---------------------//////////////
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction pour ajouter un élément à la liste chaînée
+Node* ajouterElement(Node* tete, int valeur) {
+    Node* nouvelElement = (Node*)malloc(sizeof(Node));
+    nouvelElement->data = valeur;
+    nouvelElement->next = NULL;
+
+    if (tete == NULL) {
+        return nouvelElement;
+    }
+
+    Node* courant = tete;
+    while (courant->next != NULL) {
+        courant = courant->next;
+    }
+
+    courant->next = nouvelElement;
+
+    return tete;
+}
+
+// Fonction récursive pour calculer le nombre d'éléments dans la liste chaînée
+int nombreElementsRecursif(Node* tete) {
+    if (tete == NULL) {
+        return 0; // Liste vide
+    } else {
+        return 1 + nombreElementsRecursif(tete->next);
+    }
+}
+
+int main() {
+    Node* tete = NULL; // Initialisez la liste chaînée à NULL
+
+    printf("Entrez les valeurs de la liste chaînée (entrez -1 pour terminer) :\n");
+    int valeur;
+    while (1) {
+        printf("Valeur : ");
+        scanf("%d", &valeur);
+
+        if (valeur == -1) {
+            break;
+        }
+
+        tete = ajouterElement(tete, valeur);
+    }
+
+    // Affichez la liste chaînée (à des fins de vérification)
+    printf("Liste chaînée : ");
+    Node* courant = tete;
+    while (courant != NULL) {
+        printf("%d ", courant->data);
+        courant = courant->next;
+    }
+    printf("\n");
+
+    // Appelez la fonction récursive pour calculer le nombre d'éléments
+    int nombre = nombreElementsRecursif(tete);
+    printf("Le nombre d'éléments dans la liste chaînée est : %d\n", nombre);
+
+    // Libérer la mémoire en libérant les nœuds de la liste
+    courant = tete;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+
+
+/////----------------------------Exercice N°2---------------------//////////////
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction pour ajouter un élément à la liste chaînée
+Node* ajouterElement(Node* tete, int valeur) {
+    Node* nouvelElement = (Node*)malloc(sizeof(Node));
+    nouvelElement->data = valeur;
+    nouvelElement->next = NULL;
+
+    if (tete == NULL) {
+        return nouvelElement;
+    }
+
+    Node* courant = tete;
+    while (courant->next != NULL) {
+        courant = courant->next;
+    }
+
+    courant->next = nouvelElement;
+
+    return tete;
+}
+
+// Fonction pour éclater une liste en deux listes (impaires dans L1, paires dans L2)
+void eclaterListe(Node* L, Node** L1, Node** L2) {
+    Node* courant = L;
+    while (courant != NULL) {
+        if (courant->data % 2 == 0) {
+            // Valeur paire, ajout à L2
+            *L2 = ajouterElement(*L2, courant->data);
+        } else {
+            // Valeur impaire, ajout à L1
+            *L1 = ajouterElement(*L1, courant->data);
+        }
+        courant = courant->next;
+    }
+}
+
+// Fonction pour afficher une liste chaînée (à des fins de vérification)
+void afficherListe(Node* tete) {
+    Node* courant = tete;
+    while (courant != NULL) {
+        printf("%d ", courant->data);
+        courant = courant->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node* L = NULL;  // Initialisez la liste chaînée à NULL
+    Node* L1 = NULL; // Initialisez la liste chaînée des valeurs impaires à NULL
+    Node* L2 = NULL; // Initialisez la liste chaînée des valeurs paires à NULL
+
+    printf("Entrez les valeurs de la liste chaînée (entrez -1 pour terminer) :\n");
+    int valeur;
+    while (1) {
+        printf("Valeur : ");
+        scanf("%d", &valeur);
+
+        if (valeur == -1) {
+            break;
+        }
+
+        L = ajouterElement(L, valeur);
+    }
+
+    printf("Liste initiale : ");
+    afficherListe(L);
+
+    // Éclatez la liste en L1 (valeurs impaires) et L2 (valeurs paires)
+    eclaterListe(L, &L1, &L2);
+
+    printf("Liste impaire (L1) : ");
+    afficherListe(L1);
+
+    printf("Liste paire (L2) : ");
+    afficherListe(L2);
+
+    // Libérer la mémoire en libérant les nœuds des listes
+    Node* courant = L;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    courant = L1;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    courant = L2;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+
+/////----------------------------Exercice N°1-1---------------------//////////////
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction pour ajouter un élément à la liste chaînée
+Node* ajouterElement(Node* tete, int valeur) {
+    Node* nouvelElement = (Node*)malloc(sizeof(Node));
+    nouvelElement->data = valeur;
+    nouvelElement->next = NULL;
+
+    if (tete == NULL) {
+        return nouvelElement;
+    }
+
+    Node* courant = tete;
+    while (courant->next != NULL) {
+        courant = courant->next;
+    }
+
+    courant->next = nouvelElement;
+
+    return tete;
+}
+
+// Fonction pour afficher une liste chaînée (à des fins de vérification)
+void afficherListe(Node* tete) {
+    Node* courant = tete;
+    while (courant != NULL) {
+        printf("%d ", courant->data);
+        courant = courant->next;
+    }
+    printf("\n");
+}
+
+// Fonction pour créer une liste chaînée en demandant à l'utilisateur
+Node* creerListe() {
+    Node* tete = NULL;
+    int valeur;
+    char continuer;
+
+    do {
+        printf("Entrez une valeur : ");
+        scanf("%d", &valeur);
+
+        tete = ajouterElement(tete, valeur);
+
+        printf("Voulez-vous entrer une autre valeur ? (O/N) : ");
+        scanf(" %c", &continuer); // Espace avant %c pour ignorer les espaces, tabulations, etc.
+
+    } while (continuer == 'O' || continuer == 'o');
+
+    return tete;
+}
+
+int main() {
+    Node* L = creerListe();
+
+    printf("Liste créée : ");
+    afficherListe(L);
+
+    // Libérer la mémoire en libérant les nœuds de la liste
+    Node* courant = L;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+
+
+/////----------------------------Exercice N°1-2---------------------//////////////
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction pour ajouter un élément à la liste chaînée
+Node* ajouterElement(Node* tete, int valeur) {
+    if (valeur < 0) {
+        return tete;  // Ignorer les valeurs négatives
+    }
+
+    Node* nouvelElement = (Node*)malloc(sizeof(Node));
+    nouvelElement->data = valeur;
+    nouvelElement->next = NULL;
+
+    if (tete == NULL) {
+        return nouvelElement;
+    }
+
+    Node* courant = tete;
+    while (courant->next != NULL) {
+        courant = courant->next;
+    }
+
+    courant->next = nouvelElement;
+
+    return tete;
+}
+
+// Fonction récursive pour afficher les éléments de la liste chaînée
+void afficherListeRecursif(Node* tete) {
+    if (tete == NULL) {
+        return;
+    }
+
+    printf("%d ", tete->data);
+    afficherListeRecursif(tete->next);
+}
+
+int main() {
+    Node* L = NULL; // Initialisez la liste chaînée à NULL
+    int valeur;
+    char continuer;
+
+    do {
+        printf("Entrez une valeur (ou -1 pour terminer) : ");
+        scanf("%d", &valeur);
+
+        if (valeur != -1) {
+            L = ajouterElement(L, valeur);
+        }
+
+    } while (valeur != -1);
+
+    printf("Liste chaînée : ");
+    afficherListeRecursif(L);
+    printf("\n");
+
+    // Libérer la mémoire en libérant les nœuds de la liste
+    Node* courant = L;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+
+/////----------------------------Exercice N°1-3---------------------//////////////
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Définition de la structure pour un élément de la liste chaînée
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Fonction récursive pour ajouter un élément à la fin de la liste chaînée
+Node* ajouterFinRecursif(Node* tete, int valeur) {
+    // Si la liste est vide, créer un nouveau nœud
+    if (tete == NULL) {
+        Node* nouvelElement = (Node*)malloc(sizeof(Node));
+        nouvelElement->data = valeur;
+        nouvelElement->next = NULL;
+        return nouvelElement;
+    }
+
+    // Si le nœud actuel n'est pas le dernier, continuer la récursion
+    tete->next = ajouterFinRecursif(tete->next, valeur);
+
+    return tete;
+}
+
+// Fonction pour afficher une liste chaînée (à des fins de vérification)
+void afficherListe(Node* tete) {
+    Node* courant = tete;
+    while (courant != NULL) {
+        printf("%d ", courant->data);
+        courant = courant->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node* L = NULL; // Initialisez la liste chaînée à NULL
+
+    // Ajoutez quelques éléments à la liste chaînée L
+    L = ajouterFinRecursif(L, 1);
+    L = ajouterFinRecursif(L, 2);
+    L = ajouterFinRecursif(L, 3);
+
+    printf("Liste chaînée avant ajout : ");
+    afficherListe(L);
+
+    // Ajoutez un élément à la fin de la liste chaînée
+    int valeur;
+    printf("Entrez une valeur à ajouter à la fin de la liste : ");
+    scanf("%d", &valeur);
+    L = ajouterFinRecursif(L, valeur);
+
+    printf("Liste chaînée après ajout : ");
+    afficherListe(L);
+
+    // Libérer la mémoire en libérant les nœuds de la liste
+    Node* courant = L;
+    while (courant != NULL) {
+        Node* suivant = courant->next;
+        free(courant);
+        courant = suivant;
+    }
+
+    return 0;
+}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
